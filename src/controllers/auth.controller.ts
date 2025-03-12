@@ -1,10 +1,15 @@
 import { Request, Response } from "express-serve-static-core";
-import { IUser } from "../models/user.model";
 import { createUser, getUserByEmail } from "../services/user.service";
 import bcrypt from "bcrypt";
-import { createTokten } from "../libs/jwt.lib";
+import { createTokten } from "../utils/jwt.lib";
 
-export async function handleSignup(req: Request<{}, {}, IUser>, res: Response) {
+interface IBody {
+    name: string;
+    email: string;
+    password: string;
+}
+
+export async function handleSignup(req: Request<{}, {}, IBody>, res: Response) {
     const { name, email, password } = req.body;
     if (await getUserByEmail(email)) {
         res.status(400).json({

@@ -1,12 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 
-export interface IUser extends Document {
-    name: string;
-    email: string;
-    password: string;
-}
-
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema(
     {
         name: {
             type: String,
@@ -21,12 +15,13 @@ const userSchema = new Schema<IUser>(
             type: String,
             required: true,
         },
+        videos: [{ type: Schema.Types.ObjectId, ref: "video" }],
     },
     {
         timestamps: true,
     }
 );
 
-const User = model<IUser>("user", userSchema);
+const User = model("user", userSchema);
 
 export default User;

@@ -15,7 +15,10 @@ export async function getUserByEmail(email: string) {
 }
 
 export async function getUserByID(userId: string) {
-    return await User.findById(userId).select("-password");
+    return await User.findById(userId)
+        .select("-password")
+        .populate("videos")
+        .exec();
 }
 
 export async function getAllUsers() {

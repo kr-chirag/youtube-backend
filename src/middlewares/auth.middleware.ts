@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express-serve-static-core";
 import { getUserByID } from "../services/user.service";
-import { decodeToken } from "../libs/jwt.lib";
+import { decodeToken } from "../utils/jwt.lib";
 
 export async function checkAuth(
     req: Request,
@@ -13,7 +13,7 @@ export async function checkAuth(
         const decodedToken = await decodeToken(authToken);
         const user = await getUserByID(decodedToken.id);
         if (!user) throw new Error("user not found");
-        req.user = user;
+        req.userId = user.id;
         next();
     } catch (error: any) {
         console.error("checkauth middleware error:", error.message);
